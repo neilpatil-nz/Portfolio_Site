@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Neil Patil | IoT Smoke Alarm</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+	<meta name="description" content="Hi, I'm Neil Patil, a Computer Systems Engineering Student at the University of Auckland in my 2nd year. I'm currently seeking internship both in New Zealand and abroad.">
+	<meta name="keywords" content="neil patil, neil patil nz, neil patil auckland, neil auckland, neil new zealand, neil nz, neil patil software engineering, neil patil coding">
+	<meta name="author" content="Neil Patil">
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700" rel="stylesheet">
+  	<link rel="stylesheet" type="text/css" href="css/project.css">
+  	<link rel="stylesheet" type="text/css" href="css/EnlighterJS.css">
+ 	<link rel="stylesheet" type="text/css" href="css/Atomic.css">
+ 	<link rel="stylesheet" type="text/css" href="css/Animate.css">
+	<script src="javascript/MooTools-Core-1.6.0.js"></script>
+	<script type="text/javascript">
+    window.addEvent('domready', function() {
+      // highlight all pre tags
+      document.getElements('pre').enlight({
+        indent : 2
+      });
+    });
+    </script>
+
+</head>
+<body>
+	<div class="mob-menu">
+			<div id="mob-nav">
+				<ul>
+					<li>
+						<a href="index.html" class="nav-a">PROJECTS</a>
+						<span class="hover-bar-a"></span>
+					</li>
+					<li>
+						<a href="#contact" class="nav-b">CONTACT</a>
+						<span class="hover-bar-b"></span>
+					</li>
+					<li>
+						<a href="resume.pdf" class="nav-c" target="_blank">Résumé</a>
+						<span class="hover-bar-c"></span>
+					</li>
+				</ul>
+			</div>
+	</div>
+	<div class="overlay"></div>
+	<div class="mob-main">
+		
+		<div class="header-toggle">
+            <div class="toggle_back"></div>
+			<div id="toggle" ="toggleMenu()onclick" class="toggle_moveable" >
+  				<span class="toggle-line"></span>
+  			   	<span class="toggle-line"></span>
+  			   	<span class="toggle-line"></span>
+  		  		<span class="toggle-line"></span>
+            	<div class="toggle-circle"></div>
+            </div>
+		</div>
+	</div>	
+	<div id="home">		
+		<div id="home-main">
+          	<div id="nav-bar">
+				<ul>
+					<li>
+						<a href="index.html" class="nav-a">PROJECTS</a>
+						<span class="hover-bar-a"></span>
+					</li>
+					<li>
+						<a href="#contact" class="nav-b">CONTACT</a>
+						<span class="hover-bar-b"></span>
+					</li>
+					<li>
+						<a href="resume.pdf" class="nav-c" target="_blank">Résumé</a>`
+						<span class="hover-bar-c"></span>
+					</li>
+				</ul>
+			</div>
+			<div id="logo-home" class ="animated bounceIn">
+				<a href="index.html"><img src="images/logo.png"></a>
+			</div>
+		</div>
+		
+	</div>	
+	<div class="project-main">
+		<div class="header">
+			<h3>IoT Smoke Alarm</h3>
+			<h5>EMBEDDED SYSTEMS • EMBEDDED C</h5>
+			<h4>I wanted to make a smoke alarm that informs all the members of a household when it's triggered by sending a notification to their smartphones using PushBullet as the Cloud Notification system.</h4>
+			<div class="git-button">
+				<a href="https://github.com/neilpatil-nz?tab=projects" target="_blank" id="button-project">VIEW CODE ON GIT</a>
+			</div>
+			<div class="image">
+				<iframe width="100%" height="700" src="https://www.youtube.com/embed/O_Q1WKCtWiA?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</div>
+			<div class="main-content">
+				<h4>The main problem of the project was the Carbon Monoxide Sensor itself. The MQ-7 Sensor is also affected by both moisture and temperature, as a result, the data logger would have to take into account both factors.</h4>
+				<div class="image">
+					<img src="images/iotsmoke.png" width="80%;">
+				</div>
+				<h4>One possible improvement other than not using the Arduino IDE was adding a low pass filter in series with the analog input so that results would be more consistent.</h4>
+			</div>
+		</div>
+		<pre data-enlighter-language="c" data-enlighter-theme = "atomic">
+			// LED Display Libs
+#include "SPI.h"
+#include "Wire.h"
+#include "stdio.h" 
+#include "Adafruit_GFX.h"
+#include "Fonts/FreeSans9pt7b.h"
+#include "Adafruit_SSD1306.h"
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
+#define OLED_RESET     4 // Reset pin # (or -1 if sharing Arduino reset pin)
+#define OLED_ADDER 0x3C
+
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+// Gas Sensor & LED Alert Pins
+#define gasSensor 34
+#define alertLED 23
+#define button 32
+#define test 33
+int alertValue = 0;
+ 
+// Wifi and IoT Libs and Values
+// * Hidden for security reasons
+#include "WiFi.h"
+#include "WiFiClientSecure.h"
+#define WIFI_SSID "NETGEAR50" 
+#define WIFI_PASS "aquaticpanda498"
+#define API_KEY "dkmxnPR2PPNL6Spb1sNZxP"
+#define SERVER "maker.ifttt.com"
+#define PORT 443
+
+
+void setup() {
+  int i = 10; 
+  Serial.begin(9600);
+  display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDER);
+  pinMode(alertLED, OUTPUT);
+  pinMode(button, INPUT_PULLUP);
+  // Starts the Wifi
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
+  // If the Wifi cannot connect to the modem
+  while(WiFi.status() != WL_CONNECTED && i >=0) {
+    delay(1000);
+    Serial.print(i);
+    Serial.print(", ");
+    i--;
+  }
+}
+
+void loop() {
+ 
+  int gasLevel = analogRead(gasSensor); // Reads sensor value
+  gasLevel = gasLevel - 1600;
+  Serial.println(gasLevel);
+  // Displays on I2C LED Display
+  display.clearDisplay(); // Has to clear the display 
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setFont(&FreeSans9pt7b);
+  display.setCursor(20,12);
+  display.println("CO Level: ");
+  display.setTextSize(2);
+  display.setFont(&FreeSans9pt7b);
+  display.setTextColor(WHITE);
+  display.setCursor(30,45);
+  display.println(gasLevel);
+  display.display();
+  while(alertValue == 1 && digitalRead(button) != 0){
+    triggerAlarm(gasLevel);
+  }
+  if (digitalRead(test) == 0){ // Alert System
+    alertValue = 1;
+    triggerAlarm(gasLevel);
+  }
+  else{
+    alertValue = 0;
+    delay(1000);
+    digitalWrite(alertLED, LOW);
+  }
+}
+
+void triggerAlarm(int gasLevel){
+  sendAlert(gasLevel);
+  for (int x = 0;x<5;x++){
+    digitalWrite(alertLED, HIGH);
+    delay(100);
+    digitalWrite(alertLED, LOW);
+    delay(100);
+  }
+}
+
+void sendAlert(int gasLevel) {
+  // Creates a WiFi client
+  WiFiClientSecure client; 
+  if (!client.connect(SERVER, PORT)) {
+    Serial.println("Connection failed");
+    return;
+  }
+  // URL for the trigger
+  String event = "smokeAlert";
+  String url = "/trigger/";
+  url += event;
+  url += "/with/key/";
+  url += API_KEY;
+  url += "?value1=";
+  url += String(gasLevel);
+  
+  Serial.print("Requesting URL: ");
+  Serial.println(url);
+  // Sends a request
+  client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+               "Host: " + SERVER + "\r\n" + 
+               "Connection: close\r\n\r\n");
+  // Client ends
+  client.stop();
+}
+		</pre>	
+	</div>
+	<div id="contact">
+		<div id="contact-text">
+
+			<h4>You can contact me at <a href="" id="email">neil.octadesign@gmail.com</a></h4>
+			
+		</div>
+		<ul>
+			<li>
+				<a href="https://www.linkedin.com/in/neil-patil-a6646318b/"  target="_blank">Linkedin</a>
+			</li>
+			<li>
+				<a href="https://github.com/neilpatil-nz"  target="_blank">GitHub</a>
+			</li>
+		</ul>
+	</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/typeit@6/dist/typeit.min.js" />
+<script>
+   	$(document).ready(function() {
+  		var $btns = $('#toggle').click(function() {
+    		$btns.toggleClass('open');
+    		$(".mob-menu").toggleClass("mob-menu-reveal");
+    		$(".overlay").toggleClass("overlay-show");
+    		$(".mob-main").toggleClass("mob-lock");
+  		});
+	});
+</script>
+<script type="text/javascript">
+    EnlighterJS.init('pre', 'code', {
+        language : 'c++',
+        theme: 'Atomic',
+        indent : 2
+    });
+</script>
+<script src="typeit.min.js"></script>
+<script src="javascript/EnlighterJS.js"></script>
+<script type="text/javascript">
+	$().ready(function(){
+  		$(".nav-a").hover(function(){
+    		$(".hover-bar-a").css("opacity", "1");
+    		$(".hover-bar-a").css("margin-top", "30px");
+    		}, function(){
+    		$(".hover-bar-a").css("opacity", "1");
+    		$(".hover-bar-a").css("margin-top", "30px");
+  		});
+  		$(".nav-b").hover(function(){
+    		$(".hover-bar-b").css("opacity", "1");
+    		$(".hover-bar-b").css("margin-top", "30px");
+    		}, function(){
+  
+    		$(".hover-bar-b").css("opacity", "0");
+    		$(".hover-bar-b").css("margin-top", "35px");
+  		});
+  		$(".nav-c").hover(function(){
+    		$(".hover-bar-c").css("opacity", "1");
+    		$(".hover-bar-c").css("margin-top", "30px");
+    		}, function(){
+    		$(".hover-bar-c").css("opacity", "0");
+    		$(".hover-bar-c").css("margin-top", "35px");
+  		});
+	});
+</script>
+</html>
