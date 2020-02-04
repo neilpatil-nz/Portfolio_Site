@@ -246,7 +246,7 @@ void sendAlert(int gasLevel) {
     		$btns.toggleClass('open');
     		$(".mob-menu").toggleClass("mob-menu-reveal");
     		$(".overlay").toggleClass("overlay-show");
-    		$(".mob-main").toggleClass("mob-lock");
+    		
   		});
 	});
 </script>
@@ -259,6 +259,15 @@ void sendAlert(int gasLevel) {
 </script>
 <script src="typeit.min.js"></script>
 <script src="javascript/EnlighterJS.js"></script>
+<script type="text/javascript">
+  new TypeIt('#email', {
+
+  speed: 100,
+  delay: 500,
+  waitUntilVisible: true
+}).go();
+  
+</script>
 <script type="text/javascript">
 	$().ready(function(){
   		$(".nav-a").hover(function(){

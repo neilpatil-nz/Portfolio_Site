@@ -186,7 +186,7 @@ void loop() {
     		$btns.toggleClass('open');
     		$(".mob-menu").toggleClass("mob-menu-reveal");
     		$(".overlay").toggleClass("overlay-show");
-    		$(".mob-main").toggleClass("mob-lock");
+    		
   		});
 	});
 </script>
@@ -196,6 +196,15 @@ void loop() {
         theme: 'Atomic',
         indent : 2
     });
+</script>
+<script type="text/javascript">
+	new TypeIt('#email', {
+
+  speed: 100,
+  delay: 500,
+  waitUntilVisible: true
+}).go();
+	
 </script>
 <script src="typeit.min.js"></script>
 <script src="javascript/EnlighterJS.js"></script>
