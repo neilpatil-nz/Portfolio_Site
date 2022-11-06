@@ -6,10 +6,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Hi, I'm Neil Patil, a Computer Systems Engineering Student at the University of Auckland in my 2nd year. I'm currently seeking internship both in New Zealand and abroad.">
-    <meta name="keywords"
-        content="neil patil, neil patil nz, neil patil auckland, neil auckland, neil new zealand, neil nz, neil patil software engineering, neil patil coding">
     <meta name="author" content="Neil Patil">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
@@ -89,23 +85,38 @@
     </div>
     <div class="project-main">
         <div class="header">
-            <h3>UoA Remote/Steering Controller</h3>
+            <h3>UoA Steering Controller</h3>
             <h5>PCB DESIGN • ALTIUM • EMBEDDED SYSTEMS</h5>
-            <h4>Designed SMT based PCBs using Altium Designer, then assembled and tested with electronic 
-                instruments. Developed C based firmware for the Steering Controller that implemented a 
-                PI controller to allow for precise control of the steering by varying the duty cycle based 
-                on the rotational position of the DC steering motor
+            <h4>This was done as part of a voluntary internship at the University of Auckland from November 2020 to February 2021. </h4>
+            <h4>
+                The hardware and software design was primarily based on controlling the steering motor, while receiving power from another secondary converter system 
+                and communicating other details to another motor controller for forward/reverse control. The SMT-based PCB was designed using 
+                Altium Designer, then assembled and tested with electronic instruments. The steering motor terminals were connected to a ZXBM5210-SP-13,
+                an integrated H-bridge IC.
             </h4>
+            <h3 style="margin-top: 10px; margin-bottom: 20px;">Firmware</h3>
+            <h4>
                 
+                The C-based firmware for the Steering Controller functioned by receiving a desired steering angle from a 
+                Remote, at which the PI controller would configure the duty cycle of the PWM for the steering motor based on the difference 
+                in error between current angle and desired angle. The firmware was developed for an ATmega328PB and the communication with 
+                the Remote was done through UART via a BLE112 Bluetooth module.
+            </h4>
+            <h4></h4>
+            <div class="git-button">
+				<a href="https://github.com/UoAPEGroup/2020_SRW_RC_Car/tree/main/Steering/Firmware/Steering_Controller/Steering_Controller/Steering_Controller"
+					target="_blank" id="button-project">VIEW CODE ON GITHUB</a>
+			</div>
             <div class="main-content">
-                <h4>Altium PCB Design</h4>
+              
 				<div class="image">
 					<img src="images/uoa_pcb.png" width="80%;">
 				</div>
-                <h4>SMT PCB Assembled and Tested</h4>
+                <h4><center>Altium PCB Design</center></h4>
 				<div class="image">
 					<img src="images/uoa.png" width="80%;">
 				</div>
+                <h4><center>SMT PCB Assembled and Tested</center></h4>
             </div>
         </div>
 
